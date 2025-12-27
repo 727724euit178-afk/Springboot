@@ -36,17 +36,29 @@ public class UserRoleMappingServiceImpl implements UserRoleMappingService {
 
     @Override
     public UserRoleMapping saveUserRole(UserRoleMapping mapping) {
-        UserAccount user = userAccountRepo.findById(mapping.getUser().getId()).orElse(null);
-        Role role = roleRepo.findById(mapping.getRole().getId()).orElse(null);
 
-        if (user == null || role == null) {
-            return null;
-        }
-
-        mapping.setUser(user);
-        mapping.setRole(role);
-        return userRoleMappingRepo.save(mapping);
+    if (mapping == null ||
+        mapping.getUser() == null ||
+        mapping.getUser().getId() == null ||
+        mapping.getRole() == null ||
+        mapping.getRole().getId() == null) {
+        return null;
     }
+
+    UserAccount user =
+            userAccountRepo.findById(mapping.getUser().getId()).orElse(null);
+    Role role =
+            roleRepo.findById(mapping.getRole().getId()).orElse(null);
+
+    if (user == null || role == null) {
+        return null;
+    }
+
+    mapping.setUser(user);
+    mapping.setRole(role);
+
+    return userRoleMappingRepo.save(mapping);
+}
 
     @Override
     public List<UserRoleMapping> getAllUserRoleMappings() {
@@ -58,7 +70,7 @@ public class UserRoleMappingServiceImpl implements UserRoleMappingService {
         return userRoleMappingRepo.findById(id).orElse(null);
     }
 
-    @Override
+     @Override
     public UserRoleMapping updateUserRoleMapping(Long id, UserRoleMapping mapping) {
         UserRoleMapping existing = userRoleMappingRepo.findById(id).orElse(null);
         if (existing == null) return null;
