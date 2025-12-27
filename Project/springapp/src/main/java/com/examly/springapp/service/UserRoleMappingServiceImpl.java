@@ -35,7 +35,8 @@ public class UserRoleMappingServiceImpl implements UserRoleMappingService {
     private EntityManager entityManager;
 
     @Override
-    public UserRoleMapping saveUserRole(UserRoleMapping mapping) {
+  
+public UserRoleMapping saveUserRole(UserRoleMapping mapping) {
 
     if (mapping == null ||
         mapping.getUser() == null ||
